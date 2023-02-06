@@ -4,13 +4,13 @@ using DockerStatusHandler.Core;
 using Microsoft.Extensions.Hosting;
 namespace DockerStatusHandler
 {
-	public class MonitorContainer : BackgroundService
-	{
+    public class MonitorContainer : BackgroundService
+    {
         private readonly IDockerManager _dockerManager;
         public MonitorContainer(IDockerManager dockerManager)
-		{
+        {
             _dockerManager = dockerManager;
-		}
+        }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -36,7 +36,10 @@ namespace DockerStatusHandler
         {
             string val = string.Empty;
             var exitCode = message.Actor?.Attributes.TryGetValue("exitCode", out val);
-            Console.WriteLine(val);
+            if (Convert.ToInt32(val) == 0)
+                Console.WriteLine($"Computation finished successfully. Container - {message.ID}");
+            else
+                Console.WriteLine($"Computation finished with error, exitCode - {val}. Container - {message.ID}");
         }
 
         private void MonitorContainers(Message message)
