@@ -1,19 +1,13 @@
-﻿using Docker.DotNet.Models;
-using DockerStatusHandler;
-
-class Program
+﻿using GenericSiteCrawler.Client;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+public class Program
 {
-    static async Task Main(string[] args)
+    private static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args).ConfigureServices(Startup.ConfigureServices);
+
+    public static void Main(string[] args)
     {
-        var cl = new Client().Connect();
-        Console.WriteLine("Start");
-        Progress<Message> progress = new Progress<Message>();
-        progress.ProgressChanged += (sender, message) =>
-        {
-
-            Console.WriteLine($"{message.Actor.ID} -- {message.Status}");
-        };
-
-        await cl.System.MonitorEventsAsync(new ContainerEventsParameters(),progress: progress);
+        CreateHostBuilder(args).Build().Run();
     }
 }
