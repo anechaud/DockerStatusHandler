@@ -28,7 +28,7 @@ namespace DockerStatusHandler
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Something went wrong while monitorning status", ex.Message);
+                Console.WriteLine("Something went wrong while monitorning containers", ex.Message);
             }
         }
 
