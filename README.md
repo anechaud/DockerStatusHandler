@@ -8,7 +8,7 @@ DockerStatusHandler monitors the containers running in docker.
 2. Monitors the computation status based on exitCode
 3. Removes the stopped containers after the computation is done
 
-### Feature
+### Installation Guide
 * Clone this repository
 * The main branch is the most stable branch at any given time, ensure you're working from it.
 
