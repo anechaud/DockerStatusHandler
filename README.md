@@ -14,4 +14,3 @@ DockerStatusHandler monitors the containers running in docker.
 
 ### Usage
 * Run dotnet run to start the application.
-* Connect to the API using Postman or swagger on port 5016.
