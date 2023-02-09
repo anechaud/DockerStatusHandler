@@ -32,6 +32,20 @@ namespace DockerStatusHandler.Core
                                                     CancellationToken.None);
         }
 
+        /// <summary>
+        /// List all containers in the docker daemon
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IList<ContainerListResponse>> ListContainers()
+        {
+            IList<ContainerListResponse> containers = await _dockerClient.Containers.ListContainersAsync(
+                                                     new ContainersListParameters()
+                                                     {
+                                                         All = true,
+                                                     });
+            return containers;
+        }
+
         private static string DockerApiUri()
         {
             if (IsWindows)
@@ -47,6 +61,12 @@ namespace DockerStatusHandler.Core
         public async Task MonitorContainerEvents(ContainerEventsParameters containerEventsParameters, Progress<Message> progress)
         {
             await _dockerClient.System.MonitorEventsAsync(new ContainerEventsParameters(), progress: progress);
+        }
+
+        public async Task<bool> CheckContainerExistance(string containerId)
+        {
+            var containers = await ListContainers();
+            return containers.Any(x => x.ID == containerId);
         }
     }
 }

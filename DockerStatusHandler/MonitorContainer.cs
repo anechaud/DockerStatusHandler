@@ -49,7 +49,9 @@ namespace DockerStatusHandler
 
         private async Task DeleteContainerAsync(Message message)
         {
-            if (!string.IsNullOrEmpty(message.Status) && message.Status.Equals("stop", StringComparison.InvariantCultureIgnoreCase))
+
+            var isContainerExists = await _dockerManager.CheckContainerExistance(message.ID);
+            if (isContainerExists && !string.IsNullOrEmpty(message.Status) && message.Status.Equals("stop", StringComparison.InvariantCultureIgnoreCase))
             {
                 await _dockerManager.RemoveContainer(message.ID);
                 Console.WriteLine($"Container {message.ID} is removed");
